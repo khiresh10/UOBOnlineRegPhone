@@ -80,7 +80,10 @@
   /* === UI refinements (overrides) === */
   :root{ --turquoise:#7ef0c1 }
   /* Make i‑icon terms bold + UOB blue */
-  .term{ font-weight:700 !important; color:#0050A0 !important }
+  .term{ display:inline-flex; align-items:center; gap:0; border:none; background:none; color:#0050A0 !important; padding:0; cursor:pointer; font-weight:700 !important; text-decoration:none }
+    .term .i{ display:inline-grid; place-items:center; width:16px; height:16px; font-size:12px; border-radius:999px; border:1px solid #0050A0 !important; color:#0050A0 !important; font-weight:700; margin-left:.35em }
+    .term .i::before{ content:"("; margin-right:3px; font-weight:400; color:inherit }
+    .term .i::after{ content:")"; margin-left:3px; font-weight:400; color:inherit }
   .term .i{ border-color:#0050A0 !important; color:#0050A0 !important; font-weight:700 }
   .term:hover{ text-decoration:underline }
   /* Step bubbles: same size + light turquoise tint */
