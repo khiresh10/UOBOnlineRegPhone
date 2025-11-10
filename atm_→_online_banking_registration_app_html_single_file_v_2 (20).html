@@ -39,72 +39,12 @@
     button.icon{ display:inline-grid; place-items:center; width:36px; height:36px; border-radius:12px; border:1px solid var(--border); background:rgba(255,255,255,.03); color:var(--ink); cursor:pointer }
     button.icon:hover{ background:rgba(255,255,255,.08) }
     .bank-logo{ height:28px; width:auto; display:inline-block; margin-left:6px; filter: drop-shadow(0 2px 6px rgba(0,0,0,.35)); }
-    @media (max-width:600px){ .bank-logo{ height:22px } }
-
-    /* ===== LAYOUT ===== */
-    main{ display:grid; grid-template-columns:300px 1fr; gap:16px; margin-top:16px }
-    @media (max-width:980px){ main{ grid-template-columns:1fr } .sidebar{ order:2 } }
-    .panel{ background:color-mix(in oklab, var(--panel) 92%, transparent); border:1px solid var(--border); border-radius:var(--radius); box-shadow:var(--shadow) }
-
-    .sidebar{ $1top:var(--appbar-h, 68px); height:calc(100vh - 88px); overflow:auto }
-
-    /* Progress */
-    .progress{ margin:12px 0 16px; height:10px; background:#0e1430; border-radius:999px; overflow:hidden; border:1px solid var(--border) }
-    .progress > span{ display:block; height:100%; width:0%; background:var(--uob-red, #ED1C24); transition: width .35s ease }
-
-    /* Tabs */
-    .tabs{ display:flex; gap:6px; margin:8px 0 10px }
-    .tab{ flex:1; background:transparent; border:1px solid var(--border); color:var(--ink); padding:8px 10px; border-radius:10px; cursor:pointer; font-size:13px }
-    .tab[aria-selected="true"]{ outline:2px solid var(--uob-blue) }
-
-    /* TOC + Checklist */
-    .toc{ list-style:none; padding:0; margin:10px 0; display:flex; flex-direction:column; gap:6px }
-    .toc button{ width:100%; text-align:left; background:transparent; border:1px solid var(--border); color:var(--ink); padding:10px 12px; border-radius:12px; cursor:pointer }
-    .toc button[aria-current="step"]{ outline:2px solid var(--uob-blue) }
-
-    .checklist{ list-style:none; padding:0; margin:10px 0; display:flex; flex-direction:column; gap:6px }
-    .check-item{ display:flex; align-items:center; gap:10px; border:1px solid var(--border); border-radius:12px; padding:10px 12px; background:rgba(255,255,255,.02) }
-    .check-item input{ width:18px; height:18px }
-
-    /* Content */
-    .content{ padding:16px }
-    .step{ border:1px solid var(--border); border-radius:16px; background:rgba(255,255,255,.02); padding:16px; margin-bottom:14px; scroll-margin-top:76px }
-    .step h2{ margin:0 0 8px; font-size:20px; display:flex; align-items:center; gap:8px }
-    .meta{ display:flex; gap:12px; align-items:center; color:var(--muted); font-size:13px; margin-bottom:10px }
-    .pill{ padding:4px 8px; border-radius:999px; background:rgba(0,80,160,.16); color:var(--ink); border:1px solid var(--border) }
-    .stepdone{ margin-left:auto; display:inline-flex; align-items:center; gap:6px; font-size:13px; color:var(--muted) }
-
-    /* i-term */
-    .term{ display:inline-flex; align-items:center; gap:6px; border:none; background:none; color:#0050A0 !important; padding:0; cursor:pointer; font-weight:700 }
-    .term .i{ display:inline-grid; place-items:center; width:16px; height:16px; font-size:12px; border-radius:999px; border:1px solid #0050A0 !important; color:#0050A0 !important }
-    .term:hover{ text-decoration:underline }
-    .term .i{ display:inline-grid; place-items:center; width:16px; height:16px; font-size:12px; border-radius:999px; border:1px solid currentColor }
-
-    /* Corner glossary panel */
-    .gpanel{ position:fixed; right:16px; bottom:16px; width:360px; max-width:94vw; background:var(--panel); color:var(--ink); border:1px solid var(--border); border-radius:14px; box-shadow:var(--shadow); padding:12px; z-index:200; /* animated bubble */ opacity:0; transform:translateY(8px) scale(.98); pointer-events:none; transition: opacity .28s ease, transform .28s ease }
-    .gpanel[data-open="true"]{ opacity:1; transform:translateY(0) scale(1); pointer-events:auto }
-    .gpanel h3{ margin:0 0 6px; font-size:14px; color:var(--ink) }
-    .gpanel p{ margin:0; font-size:13px; color:inherit }
-    .gpanel .row{ display:flex; gap:8px; align-items:center; margin-bottom:6px }
-    .gpanel .close{ margin-left:auto; background:transparent; border:1px solid var(--border); color:var(--ink); border-radius:8px; padding:4px 8px; cursor:pointer }
-
-    .toast{ position:fixed; bottom:16px; left:50%; transform:translateX(-50%); background:#0c132e; color:var(--ink); padding:10px 14px; border-radius:10px; border:1px solid var(--border); box-shadow:var(--shadow); display:none; z-index:120 }
-
-    }
-
-    @media print{
-      header, .sidebar, .toast, .gpanel{ display:none !important }
-      body{ background:white; color:black }
-      .content{ padding:0 }
-      .step{ page-break-inside:avoid }
-    }
-  
-    /* ===== Mobile phone tweaks ===== */
     @media (max-width:600px){
       .app{ margin:8px auto; padding:8px }
       header.appbar .title{ font-size:14px }
-      .quicknav{ overflow-x:auto; -webkit-overflow-scrolling:touch; gap:6px; padding-bottom:6px }
-      .qbtn{ white-space:nowrap; padding:6px 8px; font-size:12px }
+      .appbar-inner{ flex-wrap: wrap }
+      .quicknav{ width:100%; margin:6px 0 0 0; gap:8px; padding:0; overflow:visible; display:flex; flex-wrap:wrap; justify-content:space-between }
+      .qbtn{ flex:1 1 calc(50% - 8px); white-space:normal; padding:10px 12px; font-size:12px; text-align:center }
       main{ margin-top:8px }
       .content{ padding:12px }
       .step{ padding:12px; border-radius:12px }
@@ -126,6 +66,7 @@
         <button class="qbtn" id="qReg" aria-label="Go to Online Banking Registration">Online Banking Registration</button>
         <button class="qbtn" id="qReset" aria-label="Go to Password Reset">Password Reset</button>
         <button class="qbtn" id="qUnusual" aria-label="Go to Unusual Activity Detected">Unusual Activity Detected</button>
+        <button class="qbtn" id="qLocator" aria-label="Open Branch & ATM Locator">Branch & ATM Locator</button>
       </nav>
       <div class="spacer"></div>
       <div class="bar-actions">
@@ -358,13 +299,15 @@
       setCurrent(0);
     });
     document.getElementById('qReset').addEventListener('click', ()=>{
-      // Per your instruction, both Password Reset and Unusual Activity go to Step 6
       document.getElementById('reset')?.scrollIntoView({behavior:'smooth', block:'start'});
       setCurrent(5);
     });
     document.getElementById('qUnusual').addEventListener('click', ()=>{
       document.getElementById('reset')?.scrollIntoView({behavior:'smooth', block:'start'});
       setCurrent(5);
+    });
+    document.getElementById('qLocator').addEventListener('click', ()=>{
+      window.open('https://www.uob.com.my/default/uob-branch-locator.page?gad_source=1&gad_campaignid=22481574400&gbraid=0AAAAADpz2ktGVrxTDa2icSiYPINWrIAR1&gclid=CjwKCAiAt8bIBhBpEiwAzH1w6bKkLogMAcl0WW9cQn4QDE5Rq5V4y3tbWK3WIyzjPs7WqjRgAEsbSxoCKWAQAvD_BwE', '_blank', 'noopener');
     });
 
     // Kick-off
