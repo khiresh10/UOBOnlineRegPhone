@@ -19,7 +19,9 @@
     *{box-sizing:border-box}
     html,body{ height:100% }
     /* full-viewport background image overlay */
-    body::before{ content:""; position:fixed; inset:0; background-image:var(--bgimg); background-size:contain; background-position:center top; background-repeat:no-repeat; opacity:var(--bgimg-opacity); pointer-events:none; z-index:0; background-attachment:fixed }
+    /* Use a fixed background layer instead of body::before to avoid mobile scroll bugs */
+    body::before{ content:none !important }
+    .bg{ position:fixed; inset:0; background-image:var(--bgimg); background-size:cover; background-position:center top; background-repeat:no-repeat; opacity:var(--bgimg-opacity, .12); pointer-events:none; z-index:0 }
     html{ scroll-behavior:smooth }
     body{ margin:0; font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Ubuntu, Cantarell, Noto Sans, Arial; color:var(--ink);
       background: radial-gradient(1200px 600px at 80% -50%, color-mix(in oklab, var(--uob-blue) 30%, transparent), transparent 60%),
@@ -106,6 +108,7 @@
 </style>
 </head>
 <body>
+  <div class="bg" aria-hidden="true"></div>
   <header class="appbar">
     <div class="app appbar-inner">
       <div class="logo-sq" aria-hidden="true"></div>
