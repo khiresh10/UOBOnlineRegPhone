@@ -95,6 +95,14 @@
   @media (max-width:600px){
     .gpanel{ right:8px !important; left:8px !important; top:45vh !important; transform:translateY(-45%) !important; width:auto }
   }
+
+  /* Remove visible 'i' letter inside icon, keep parentheses */
+  .term .i{ font-size:0 !important }
+  .term .i::before, .term .i::after{ font-size:12px }
+
+  /* Remove parentheses and circular badge next to terms */
+  .term .i{ display:none !important; margin:0 !important; border:none !important }
+  .term .i::before, .term .i::after{ content:'' !important }
 </style>
 </head>
 <body>
@@ -388,4 +396,5 @@
   </script>
 </body>
 </html>
+
 
