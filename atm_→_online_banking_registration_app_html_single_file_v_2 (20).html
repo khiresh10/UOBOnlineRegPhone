@@ -76,7 +76,23 @@
     /* Floating glossary toggle button */
     .gfab{ position:fixed; right:16px; top:50%; transform:translateY(-50%); width:44px; height:44px; border-radius:999px; border:1px solid var(--border); background:color-mix(in oklab, var(--panel) 92%, transparent); color:var(--ink); box-shadow:var(--shadow); z-index:320; cursor:pointer; display:inline-grid; place-items:center; font-weight:800 }
     .gfab:hover{ outline:2px solid var(--uob-blue) }
-  </style>
+  
+  /* === UI refinements (overrides) === */
+  :root{ --turquoise:#7ef0c1 }
+  /* Make i‑icon terms bold + UOB blue */
+  .term{ font-weight:700 !important; color:#0050A0 !important }
+  .term .i{ border-color:#0050A0 !important; color:#0050A0 !important; font-weight:700 }
+  .term:hover{ text-decoration:underline }
+  /* Step bubbles: same size + light turquoise tint */
+  .toc button{ min-height:48px; background:color-mix(in oklab, var(--turquoise) 22%, transparent) !important; border-color:color-mix(in oklab, var(--turquoise) 38%, var(--border)) !important; border-radius:14px !important; font-weight:700 !important }
+  .toc button::after{ content:'›'; opacity:.7 }
+  /* Glossary panel: follow on screen (center-right), not stuck at bottom */
+  .gpanel{ position:fixed !important; right:16px !important; top:50% !important; bottom:auto !important; transform:translateY(-50%) !important; width:360px; max-width:94vw; z-index:300 }
+  .gpanel[data-open="true"]{ opacity:1; pointer-events:auto }
+  @media (max-width:600px){
+    .gpanel{ right:8px !important; left:8px !important; top:45vh !important; transform:translateY(-45%) !important; width:auto }
+  }
+</style>
 </head>
 <body>
   <header class="appbar">
@@ -369,3 +385,4 @@
   </script>
 </body>
 </html>
+
