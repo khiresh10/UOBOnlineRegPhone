@@ -52,10 +52,31 @@
       .toc button{ padding:8px 10px; font-size:14px }
       .check-item{ padding:10px }
       .check-item input{ width:22px; height:22px }
-      .gpanel{ right:8px; left:8px; width:auto; bottom:10px }
+      .gpanel{ right:8px; left:8px; width:auto; bottom:12px }
+      .bank-logo{ height:20px }
+      .gfab{ right:12px; bottom:84px; top:auto; transform:none }
+    }
+      header.appbar .title{ font-size:14px }
+      .appbar-inner{ flex-wrap: wrap }
+      .quicknav{ width:100%; margin:6px 0 0 0; gap:8px; padding:0; overflow:visible; display:flex; flex-wrap:wrap; justify-content:space-between }
+      .qbtn{ flex:1 1 calc(50% - 8px); white-space:normal; padding:10px 12px; font-size:12px; text-align:center }
+      main{ margin-top:8px }
+      .content{ padding:12px }
+      .step{ padding:12px; border-radius:12px }
+      .step h2{ font-size:18px }
+      .toc button{ width:100%; text-align:left; background:rgba(255,255,255,.03); border:1px solid var(--border); color:var(--ink); padding:12px 14px; border-radius:12px; cursor:pointer; font-weight:600; display:flex; align-items:center; justify-content:space-between }
+    .toc button::after{ content:'›'; opacity:.7 }
+    .toc button[aria-current="step"]{ outline:2px solid var(--uob-blue) }
+      .check-item{ padding:10px }
+      .check-item input{ width:22px; height:22px }
+      .gpanel{ position:fixed; right:16px; bottom:16px; width:360px; max-width:94vw; background:var(--panel); color:var(--ink); border:1px solid var(--border); border-radius:14px; box-shadow:var(--shadow); padding:12px; z-index:300; opacity:0; transform:translateY(8px) scale(.98); pointer-events:none; transition: opacity .28s ease, transform .28s ease }
       .bank-logo{ height:20px }
     }
-</style>
+
+    /* Floating glossary toggle button */
+    .gfab{ position:fixed; right:16px; top:50%; transform:translateY(-50%); width:44px; height:44px; border-radius:999px; border:1px solid var(--border); background:color-mix(in oklab, var(--panel) 92%, transparent); color:var(--ink); box-shadow:var(--shadow); z-index:320; cursor:pointer; display:inline-grid; place-items:center; font-weight:800 }
+    .gfab:hover{ outline:2px solid var(--uob-blue) }
+  </style>
 </head>
 <body>
   <header class="appbar">
@@ -107,6 +128,7 @@
   </div>
 
   <!-- Corner glossary panel -->
+  <button id="gToggle" class="gfab" aria-label="Open glossary" title="Open glossary">i</button>
   <div id="gPanel" class="gpanel" role="dialog" aria-modal="false" aria-live="polite" aria-hidden="true">
     <div class="row">
       <strong id="gTerm">Glossary</strong>
@@ -207,6 +229,15 @@
     /* ===== DOM refs ===== */
     const stepsRoot = document.getElementById('steps');
     const toc = document.getElementById('toc');
+    const tocLabels = [
+      'ATM',
+      'UOB TMRW App',
+      'Create Secure PIN',
+      'Activate Secure PIN',
+      'Create Secret Word (optional)',
+      'Password Reset',
+      'If Unusual Activity Notification Appears'
+    ];
     const checklist = document.getElementById('checklist');
     const bar = document.getElementById('bar');
     const tabGuide = document.getElementById('tabGuide');
@@ -235,7 +266,7 @@
         h.appendChild(mark); card.append(h, meta, ul); stepsRoot.appendChild(card);
 
         // TOC
-        const btn = document.createElement('button'); btn.textContent = `Step ${idx+1}: ${s.title.replace(/<[^>]*>/g,'')}`;
+        const btn = document.createElement('button'); btn.textContent = `Step ${idx+1}: ${tocLabels[idx] || s.title.replace(/<[^>]*>/g,'')}`; btn.setAttribute('title', s.title.replace(/<[^>]*>/g,''));
         btn.addEventListener('click',()=>{ document.getElementById(s.id).scrollIntoView({behavior:'smooth',block:'start'}); setCurrent(idx) });
         toc.appendChild(btn);
 
@@ -272,10 +303,31 @@
     tabChecklist.addEventListener('click', ()=> selectTab('checklist'));
 
     /* ===== Glossary behaviour ===== */
-    function openGlossary(key){ const g = glossary[key]; if(!g) return; gTerm.textContent = g.term; gBody.textContent = g.def; gPanel.dataset.open = 'true'; gPanel.setAttribute('aria-hidden','false') }
+    function openGlossary(key){
+      const g = glossary[key];
+      if(!g) return;
+      gTerm.textContent = g.term;
+      gBody.textContent = g.def;
+      gPanel.dataset.open = 'true';
+      gPanel.setAttribute('aria-hidden','false');
+      // ensure visible above other UI
+      gPanel.style.zIndex = 300;
+    }
     function closeGlossary(){ gPanel.dataset.open = 'false'; gPanel.setAttribute('aria-hidden','true') }
     document.getElementById('gClose').addEventListener('click', closeGlossary);
-    document.addEventListener('click',(e)=>{ const t = e.target.closest('.term'); if(t){ e.preventDefault(); e.stopPropagation(); openGlossary(t.getAttribute('data-key')); } });
+    document.getElementById('gToggle').addEventListener('click', ()=>{
+      const open = gPanel.dataset.open === 'true';
+      if(open){ closeGlossary(); }
+      else{ gTerm.textContent = 'Glossary'; gBody.textContent = 'Tap any i icon in the steps to see the definition here.'; gPanel.dataset.open = 'true'; gPanel.setAttribute('aria-hidden','false'); }
+    });
+    document.addEventListener('click',(e)=>{
+      const t = e.target.closest('.term');
+      if(t){ e.preventDefault(); openGlossary(t.getAttribute('data-key')); }
+    });
+    document.addEventListener('pointerup',(e)=>{
+      const t = e.target.closest('.term');
+      if(t){ openGlossary(t.getAttribute('data-key')); }
+    });
     document.addEventListener('keydown',(e)=>{ if(e.key==='Escape') closeGlossary() });
 
     /* ===== Utilities ===== */
